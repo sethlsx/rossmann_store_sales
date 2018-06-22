@@ -11,7 +11,7 @@ Rossmann是欧洲的一家连锁药店。 在这个源自Kaggle比赛[Rossmann S
 
 销售预测在零售行业对于运营有重大的指导意义，直接关系到公司的资源调配，人员的安排等等，进而影响公司成本和效率，著名快时尚公司zara正是得力于有力高效的极致供应链，压缩仓储和运营成本，取得了成功。
 
-在没有电子化的过去，商业实践中多采用一些指标式的商业模型来进行预测。在计算机时代到来之后，业界开始采用一些数据挖掘手段来进行销售预测，主要是一些统计分析方法，比如时间序列分析、线性回归模型分析、非线形回归模型分析等等。但是，由于影响销售是由多种因素综合决定的，而神经网络作为一种非线性、自适应动力学系统，逐步被用来解决销售预测问题。这当中最引人注目的就是在时尚销售领域的算法研究，先后有极限学机（Extreme Learning Machine, ELM），扩展的极限学机（Extended ELM, EELM）算法等等算法被提出。[1][recite1][2][recite2]
+在没有电子化的过去，商业实践中多采用一些指标式的商业模型来进行预测。在计算机时代到来之后，业界开始采用一些数据挖掘手段来进行销售预测，主要是一些统计分析方法，比如时间序列分析、线性回归模型分析、非线形回归模型分析等等。但是，由于影响销售是由多种因素综合决定的，而神经网络作为一种非线性、自适应动力学系统，逐步被用来解决销售预测问题。这当中最引人注目的就是在时尚销售领域的算法研究，先后有极限学机（Extreme Learning Machine, ELM），扩展的极限学机（Extended ELM, EELM）算法等等算法被提出。[1][2]
 
 ### 问题描述
 
@@ -40,13 +40,13 @@ Rossmann是欧洲的一家连锁药店。 在这个源自Kaggle比赛[Rossmann S
 
 ### 解决方法
 
-拟采用流行的xgboost工具包来训练。xgboost被证明在数据挖掘中效果很好的工具包，有大量的kaggle队伍采用该工具包，在2015年29支Kaggle冠军队伍中就有17队采用xgboost工具包。xgboost是对GBDT（Gradient Boost Decision Tree）的一种改进。这里面涉及boosting的概念。Boosting方法是指对一份数据，建立多个模型，这些模型都比较简单，称为弱分类器，然后每次分类都将上一次分错的数据权重提高再进行分类，最终得到的分类器即可在测试数据与训练数据上都取得比较好的成绩。[3][recite3]而Gradient Boosting是一种Boosting的方法，它的主要思想是，每一次建立模型是在之前建立模型损失函数的梯度下降方向。[3][recite3]而拟使用的XGBoost则是对GBDT在多个方面进行了改进。关于XGBoost为什么在竞赛中表现优越，挪威科技大学的Didrik Nielsen的硕士论文[《使用XGBoost的树提升：为什么XGBoost能赢得“每一场”机器学习竞赛》](https://brage.bibsys.no/xmlui/bitstream/handle/11250/2433761/16128_FULLTEXT.pdf)尝试做出解答，作者认为，一方面，提升树模型很好的在高纬度问题中“打败了”维度的诅咒，另一方面，XGBoost在每一轮的训练中使用更高阶的近似，因此可以更好的学习。此外，XGBoost在自适应决定每个树的终端节点数上面，以及调整树的权重以更好地减小方差上面采用更聪明的策略。综合的结果就是，XGBoost成为了竞赛中最受欢迎的算法。
+拟采用流行的xgboost工具包来训练。xgboost被证明在数据挖掘中效果很好的工具包，有大量的kaggle队伍采用该工具包，在2015年29支Kaggle冠军队伍中就有17队采用xgboost工具包。xgboost是对GBDT（Gradient Boost Decision Tree）的一种改进。这里面涉及boosting的概念。Boosting方法是指对一份数据，建立多个模型，这些模型都比较简单，称为弱分类器，然后每次分类都将上一次分错的数据权重提高再进行分类，最终得到的分类器即可在测试数据与训练数据上都取得比较好的成绩。[3]而Gradient Boosting是一种Boosting的方法，它的主要思想是，每一次建立模型是在之前建立模型损失函数的梯度下降方向。[3]而拟使用的XGBoost则是对GBDT在多个方面进行了改进。关于XGBoost为什么在竞赛中表现优越，挪威科技大学的Didrik Nielsen的硕士论文[《使用XGBoost的树提升：为什么XGBoost能赢得“每一场”机器学习竞赛》](https://brage.bibsys.no/xmlui/bitstream/handle/11250/2433761/16128_FULLTEXT.pdf)尝试做出解答，作者认为，一方面，提升树模型很好的在高纬度问题中“打败了”维度的诅咒，另一方面，XGBoost在每一轮的训练中使用更高阶的近似，因此可以更好的学习。此外，XGBoost在自适应决定每个树的终端节点数上面，以及调整树的权重以更好地减小方差上面采用更聪明的策略。综合的结果就是，XGBoost成为了竞赛中最受欢迎的算法。
 
 就该项目而言，其本身是一个高纬度的时间序列回归问题，因此可以采用XGBoost来量化和解决。
 
 ### 基准模型
 
-如解决方法所言，基准模型将采用基于XGBoost算法的决策树模型。关于模型的各个参数需要在解决过程中进行优化尝试。
+如解决方法所言，基准模型将采用基于GBDT的XGBoost。关于模型的各个参数需要在解决过程中进行优化尝试。目标是kaggle private leaderboard的top 10%，rmpse = 0.11773
 
 ### 评价指标
 
@@ -56,14 +56,13 @@ $$RMSPE = \sqrt{\frac{1}{n}\sum_{i=1}^{n}{(\frac{y_i-\hat{y_i}{y_i}})^2}}$$
 
 
 ### 设计大纲
-_(approx. 1 page)_
 
-In this final section, summarize a theoretical workflow for approaching a solution given the problem. Provide thorough discussion for what strategies you may consider employing, what analysis of the data might be required before being used, or which algorithms will be considered for your implementation. The workflow and discussion that you provide should align with the qualities of the previous sections. Additionally, you are encouraged to include small visualizations, pseudocode, or diagrams to aid in describing the project design, but it is not required. The discussion should clearly outline your intended workflow of the capstone project.
 
 *数据预处理*
 - 从kaggle下载相关数据
 - 对数据进行预处理，包括归一化（特征标准化）以及PCA分析等
-- 经过预处理后形成完整干净的训练数据
+- 经过预处理后形成完整干净的数据
+- 将数据按8:2的比例划分为训练集和验证集
 
 
 
@@ -76,9 +75,10 @@ In this final section, summarize a theoretical workflow for approaching a soluti
 
 *模型评估*
 - 使用RMSPE进行模型评估，上传kaggle进行最终评估
+- 输出xgboost特征重要性表
 
 ### 参考文献
 
-[recite1]:刘卫校，基于离散灰色预测模型与人工神经网络混合智能模型的时尚销售预测. 计算机应用 2016, Vol. 36 Issue (12): 3378-3384  DOI: 10.11772/j.issn.1001-9081.2016.12.3378
-[recite2]:[MBA百科](http://wiki.mbalib.com/wiki/%E9%94%80%E5%94%AE%E9%A2%84%E6%B5%8B)
-[recite3]:[机器学习——Gradient Boost Decision Tree(&Treelink)][https://blog.csdn.net/yangtrees/article/details/7506052]
+[1]:刘卫校，基于离散灰色预测模型与人工神经网络混合智能模型的时尚销售预测. 计算机应用 2016, Vol. 36 Issue (12): 3378-3384  DOI: 10.11772/j.issn.1001-9081.2016.12.3378
+[2]:[MBA百科](http://wiki.mbalib.com/wiki/%E9%94%80%E5%94%AE%E9%A2%84%E6%B5%8B)
+[3]:[机器学习——Gradient Boost Decision Tree(&Treelink)][https://blog.csdn.net/yangtrees/article/details/7506052]
